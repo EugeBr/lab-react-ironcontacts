@@ -34,6 +34,18 @@ function App() {
     )
   }
 
+  const handleSortByName = () => {
+    const contactsCopy = [...contacts]; 
+    setContacts(contactsCopy.sort((contact1, contact2) => contact1.name.localeCompare(contact2.name)));
+
+  }
+
+  const handleSortByPopularity = () => {
+    const contactsCopy = [...contacts]; 
+    setContacts(contactsCopy.sort((contact1, contact2) => contact1.popularity - contact2.popularity));
+
+  }
+
   return (
     <div className="App">
       <h1>IronContacts</h1>
@@ -50,6 +62,8 @@ function App() {
         }
       </div>
       <button onClick={() => handleAdd()}>Add contact</button>
+      <button onClick={() => handleSortByName()}>Sort by Name</button>
+      <button onClick={() => handleSortByPopularity()}>Sort by Popularity</button>
     </div>
   );
 }
