@@ -1,23 +1,55 @@
-import logo from './logo.svg';
+
+import { useState } from 'react';
 import './App.css';
+import contactsData from "./contacts.json";
+import Contact from "./components/Contact";
 
 function App() {
+  const [contacts, setContacts] = useState(contactsData.slice(0, 5));
+
+  const handleAdd = () => {
+    const contactsCopy = [...contacts];
+    const newContact = contactsData[Math.floor(Math.random() * contactsData.length)];
+    if (contacts.indexOf(newContact) === -1) {
+      contactsCopy.push(newContact);
+    }
+    setContacts(contactsCopy);
+  }
+
+  const handleDelete = (id) => {
+    setContacts(contacts.filter(contact => contact.id !== id));
+  }
+
+  const displayContacts = () => {
+    return (
+      contacts.map((contact) => {
+        return (
+          <Contact
+            key={contact.id}
+            {...contact}
+            handleDelete={handleDelete}
+          />
+        )
+      })
+    )
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>IronContacts</h1>
+      <div className="display">
+        <p>Picture</p>
+        <p>Name</p>
+        <p>Popularity</p>
+        <p>Won Oscar</p>
+        <p>Won Emmy</p>
+      </div>
+      <div>
+        {
+          displayContacts()
+        }
+      </div>
+      <button onClick={() => handleAdd()}>Add contact</button>
     </div>
   );
 }
